@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Hello you!</title>
+
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+		<link href="noUiSlider/nouislider.min.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Hind|Lato:400,700,900" rel="stylesheet">
+		<style>
+		/*
+		Overskrifter (H1, H2): Lato Black eller Lato 900.
+		CSS: Letter-spacing: 1px; text-transform: uppercase;
+
+		Overskrifter (H3-H4): Lato Bold eller Lato 700.
+		CSS: Letter-spacing: 1px; text-transform: uppercase;
+
+		Overskrifter (H5-H6): Hind (alternativt Roboto Regular)
+
+		Brødtekst: Hind (alternativt Roboto Regular)
+
+
+		font-family: 'Lato', sans-serif;
+		font-family: 'Hind', sans-serif;
+
+		Blå: #5cb2e4
+		Grønn lys: #8dc63f
+		Grønn mørk: #009444
+		Grå: #dddede
+
+		*/
+
+		body{
+			background-color: #dddede;
+			font-family: 'Hind', sans-serif;
+		}
+
+	  .chart rect {
+	    fill: #8dc63f;
+	  }
+
+	  .chart text {
+	    fill: #009444;
+			font-size: 1.1em;
+	  }
+
+	  .axis path,
+	  .axis line {
+	    fill: none;
+	    stroke: #000;
+	    shape-rendering: crispEdges;
+	  }
+
+	  </style>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <h1>Hello, you</h1>
+
+		<div class="example">
+		  <div id="slider-format"></div>
+		  <input id="input-format">
+		</div>
+
+		<div class="panel-group" id="accordion" role="tablist">
+		  <div class="panel panel-default">
+		    <div class="panel-heading" role="tab" id="headingOne">
+		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#tax_details_panel">
+		          <svg id="total_tax" class="chart"></svg>
+		        </a>
+		    </div>
+		    <div id="tax_details_panel" class="panel-collapse collapse" role="tabpanel">
+		      <div class="panel-body">
+		        <svg id="tax_details" class="chart"></svg>
+		      </div>
+		    </div>
+		  </div>
+
+			<div class="panel panel-default">
+		    <div class="panel-heading" role="tab" id="headingOne">
+		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#norway_expenses_panel">
+		          Statens utgifter
+		        </a>
+		    </div>
+		    <div id="norway_expenses_panel" class="panel-collapse collapse" role="tabpanel">
+		      <div class="panel-body">
+		        <svg id="norway_expenses" class="chart"></svg>
+		      </div>
+		    </div>
+		  </div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingOne">
+						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#county_expenses_panel">
+							Fylkets utgifter
+						</a>
+				</div>
+				<div id="county_expenses_panel" class="panel-collapse collapse" role="tabpanel">
+					<div class="panel-body">
+						<svg id="county_expenses" class="chart"></svg>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingOne">
+						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#municipality_expenses_panel">
+							Kommunens utgifter
+						</a>
+				</div>
+				<div id="municipality_expenses_panel" class="panel-collapse collapse" role="tabpanel">
+					<div class="panel-body">
+						<svg id="municipality_expenses" class="chart"></svg>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+		    <div class="panel-heading" role="tab" id="headingOne">
+		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#norway_income_panel">
+		          Statens inntekter
+		        </a>
+		    </div>
+		    <div id="norway_income_panel" class="panel-collapse collapse" role="tabpanel">
+		      <div class="panel-body">
+						<div id="your_part_of_norway_income"></div>
+		        <svg id="norway_income" class="chart"></svg>
+		      </div>
+		    </div>
+		  </div>
+
+			<div class="panel panel-default">
+		    <div class="panel-heading" role="tab" id="headingOne">
+		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#ref_panel">
+		          Referanser
+		        </a>
+		    </div>
+		    <div id="ref_panel" class="panel-collapse collapse" role="tabpanel">
+		      <div class="panel-body">
+						http://www.statsbudsjettet.no/Statsbudsjettet-2017/Dokumenter1/Budsjettdokumenter/Statsbudsjettet-2017/Prop-1-S/Vedlegg-og-registre/Vedlegg-1-Oversikt-over-utgifter-og-inntekter-i-statsbudsjettet-for-budsjetterminen-2017/
+		      </div>
+		    </div>
+		  </div>
+
+		</div>
+
+
+		<script src="noUiSlider/nouislider.min.js" type="text/javascript"></script>
+		<script src="wnumb.js" type="text/javascript"></script>
+
+		<script src="bootstrap/js/jquery.min.js" type="text/javascript"></script>
+		<script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+	  <script src="d3.v4.min.js"></script>
+	  <script src="bullet.js"></script>
+	  <script src="mittbudsjett.js"></script>
+
+  </body>
+
+	<script>
+
+	var personinntekt = 528000;
+
+	var your_part_of_norway_income_div = document.getElementById("your_part_of_norway_income");
+	var your_part_of_norway_income_ppm = (total_skatt(personinntekt, personinntekt) / norway_total_income) * 1000;
+
+	var moneyFormat = wNumb({
+		mark: ',',
+		thousand: ' ',
+		prefix: '',
+		postfix: ' kr'
+	});
+
+	function trygdeavgift(personinntekt){
+	    var nedre_grense_trygdeavgift = 54650,
+	        opptrappingssats = 0.25,
+	        sats = 0.082;
+
+	    if(personinntekt < nedre_grense_trygdeavgift){
+	        return 0;
+	    }
+
+	    var full_rate = personinntekt * sats;
+	    var reduced_rate = (personinntekt - nedre_grense_trygdeavgift) * opptrappingssats;
+
+	    if(reduced_rate < full_rate){
+	        return Number(reduced_rate.toFixed(0));
+	    }else{
+	        return Number(full_rate.toFixed(0));
+	    }
+	}
+
+	function personskatt_stat(alminnelig_inntekt){
+	    var sats = 9.55 / 100;
+	    var skatt = alminnelig_inntekt * sats;
+	    return Number(skatt.toFixed(0));
+	}
+
+	function personskatt_fylke(alminnelig_inntekt){
+	    var sats = 2.65 / 100;
+	    var skatt = alminnelig_inntekt * sats;
+	    return Number(skatt.toFixed(0));
+	}
+
+	function personskatt_kommune(alminnelig_inntekt){
+	    var sats = 11.80 / 100;
+	    var skatt = alminnelig_inntekt * sats;
+	    return Number(skatt.toFixed(0));
+	}
+
+	function personskatt_trinn1(alminnelig_inntekt){
+	    var trinnskatt1_innslag = 164100;
+	    var trinnskatt1_sats = 0.93 / 100;
+
+	    if(alminnelig_inntekt > trinnskatt1_innslag){
+					var trinnskatt1 = (alminnelig_inntekt - trinnskatt1_innslag) * trinnskatt1_sats;
+	        return Number(trinnskatt1.toFixed(0));
+	    }else{
+	        return 0;
+	    }
+	}
+
+	function personskatt_trinn2(alminnelig_inntekt){
+	    var trinnskatt2_innslag = 230950;
+	    var trinnskatt2_sats = 2.41 / 100;
+
+	    if(alminnelig_inntekt > trinnskatt2_innslag){
+					var trinnskatt2 = (alminnelig_inntekt - trinnskatt2_innslag) * trinnskatt2_sats;
+	        return Number(trinnskatt2.toFixed(0));
+	    }else{
+	        return 0;
+	    }
+	}
+
+	function personskatt_trinn3(alminnelig_inntekt){
+	    var trinnskatt3_innslag = 580650;
+	    var trinnskatt3_sats = 11.52 / 100;
+
+	    if(alminnelig_inntekt > trinnskatt3_innslag){
+					var trinnskatt3 = (alminnelig_inntekt - trinnskatt3_innslag) * trinnskatt3_sats;
+	        return Number(trinnskatt3.toFixed(0));
+	    }else{
+	        return 0;
+	    }
+	}
+
+	function personskatt_trinn4(alminnelig_inntekt){
+	    var trinnskatt4_innslag = 934050;
+	    var trinnskatt4_sats = 14.52 / 100;
+
+	    if(alminnelig_inntekt > trinnskatt4_innslag){
+					var trinnskatt4 = (alminnelig_inntekt - trinnskatt4_innslag) * trinnskatt4_sats;
+	        return Number(trinnskatt4.toFixed(0));
+	    }else{
+	        return 0;
+	    }
+	}
+
+	function total_skatt(personinntekt, alminnelig_inntekt){
+			var total_skatt = 0;
+			total_skatt += trygdeavgift(personinntekt);
+			total_skatt += personskatt_stat(alminnelig_inntekt);
+			total_skatt += personskatt_fylke(alminnelig_inntekt);
+			total_skatt += personskatt_kommune(alminnelig_inntekt);
+			total_skatt += personskatt_trinn1(alminnelig_inntekt);
+			total_skatt += personskatt_trinn2(alminnelig_inntekt);
+			total_skatt += personskatt_trinn3(alminnelig_inntekt);
+			total_skatt += personskatt_trinn4(alminnelig_inntekt);
+			return total_skatt;
+	}
+
+	function total_skatt_pct(personinntekt, alminnelig_inntekt){
+			var total_skatt_pct = ( total_skatt(personinntekt, alminnelig_inntekt) / personinntekt ) * 100;
+			return Number(total_skatt_pct.toFixed(2));
+	}
+
+	var total_tax_data = [{ id: "total_skatt",
+								name: "Total skatt",
+								amount: 0}]
+
+	var tax_detail_data = [{ id: "trygdeavgift",
+	              name: "Trygdeavgift",
+	              amount: 0},
+	            { id: "personskatt_stat",
+	              name: "Personskatt til Staten",
+	              amount: 0},
+							{ id: "personskatt_fylke",
+								name: "Personskatt til Fylkeskommunen",
+								amount: 0},
+							{ id: "personskatt_kommune",
+								name: "Personskatt til Kommunen",
+								amount: 0},
+	            { id: "personskatt_trinn1",
+	              name: "Trinnskatt 1",
+	              amount: 0},
+	            { id: "personskatt_trinn2",
+	              name: "Trinnskatt 2",
+	              amount: 0},
+	            { id: "personskatt_trinn3",
+	              name: "Trinnskatt 3",
+	              amount: 0},
+	            { id: "personskatt_trinn4",
+	              name: "Trinnskatt 4",
+	              amount: 0}
+	            ];
+
+	var barHeight = 30;
+
+	// Define canvas size
+	var margin = {top: 20, right: 30, bottom: 30, left: 40},
+	    width = 960 - margin.left - margin.right,
+	    height = 300 - margin.top - margin.bottom;
+
+	var total_tax_bar_height = 30;
+
+	// Establish the horizontal scale
+	var x_salary_scale = d3.scaleLinear()
+	    .domain([0, 100000])
+	    .range([0, width]);
+
+	var xAxis = d3.axisBottom()
+	    .scale(x_salary_scale);
+
+	// Total tax bar
+	var total_tax = d3.select("#total_tax")
+	    .attr("width", width)
+	    .attr("height", total_tax_bar_height);
+
+	var total_tax_bar = total_tax.selectAll("g")
+	    .data(total_tax_data)
+	  .enter().append("g")
+	    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+	total_tax_bar.append("rect")
+	    .attr("id", function(d) { return "bar_"+d.id; } )
+	    .attr("width", function(d) { return x_salary_scale(d.amount); } )
+	    .attr("height", barHeight - 1);
+
+	total_tax_bar.append("text")
+	    .attr("id", function(d) { return "label_"+d.id; } )
+	    .attr("x", "120" )
+	    .attr("y", barHeight / 2)
+	    .attr("dy", ".35em")
+	    .text(function(d) { return d.name; });
+
+	// Norway income chart
+	var norway_total_income = 0	;
+
+	d3.json("norsk_statsbudsjett_2017_inntekter.json", function(error, data) {
+
+			var norway_income_chart = d3.select("#norway_income")
+			    .attr("width", width)
+			    .attr("height", barHeight * data.length);
+
+			var norway_income_bar = norway_income_chart.selectAll("g")
+			    .data(data.sort(function(a,b) { return b.amount - a.amount; }), function(d){ norway_total_income += d.amount; })
+			  .enter().append("g")
+			    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+			var x_budget_scale = d3.scaleLinear()
+					.domain([0,norway_total_income])
+					.range([0, width]);
+
+			norway_income_bar.append("rect")
+			    .attr("id", function(d) { return "bar_"+d.id; } )
+			    .attr("width", function(d) { return x_budget_scale(d.amount); } )
+			    .attr("height", barHeight - 1);
+
+			norway_income_bar.append("text")
+			    .attr("id", function(d) { return "label_"+d.id; } )
+			    .attr("x", function(d) { return x_budget_scale(d.amount) + 10; } )
+			    .attr("y", barHeight / 2)
+			    .attr("dy", ".35em")
+			    .text(function(d) { return d.name + ' (' + moneyFormat.to(d.amount) + ')'; });
+	});
+
+
+	// Norway expenses chart
+	var norway_total_expenses = 0	;
+
+	function get_norway_expenses(your_part_of_norway_income_ppm){
+		d3.json("norsk_statsbudsjett_2017_utgifter.json", function(error, data) {
+
+			var norway_expenses_chart = d3.select("#norway_expenses")
+					.attr("width", width)
+					.attr("height", barHeight * data.length);
+
+			var norway_expenses_bars = norway_expenses_chart.selectAll("g")
+			    .data(data.sort(function(a,b) { return b.sum - a.sum; }), function(d){ norway_total_expenses += d.sum; })
+			  .enter().append("g")
+			    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+			var x_expense_scale = d3.scaleLinear()
+					.domain([0,norway_total_expenses])
+					.range([0, width]);
+
+			norway_expenses_bars.append("rect")
+			    .attr("id", function(d) { return "bar_"+d.id; } )
+			    .attr("width", function(d) { return x_expense_scale(d.sum); } )
+			    .attr("height", barHeight - 1);
+
+			norway_expenses_bars.append("text")
+			    .attr("id", function(d) { return "label_"+d.id; } )
+			    .attr("x", function(d) { return x_expense_scale(d.sum) + 10; } )
+			    .attr("y", barHeight / 2)
+			    .attr("dy", ".35em")
+			    .text(function(d) { return d.name +
+																			' (' +
+																			moneyFormat.to(d.sum) +
+																			') / ( ' +
+																			( d.sum * ( your_part_of_norway_income_ppm / 1000 ) )
+																			+ ' )';
+														});
+		});
+	};
+
+	// Tax details chart
+	var tax_details = d3.select("#tax_details")
+	    .attr("width", width)
+	    .attr("height", height);
+
+	var tax_details_bar = tax_details.selectAll("g")
+	    .data(tax_detail_data)
+	  .enter().append("g")
+	    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+	tax_details_bar.append("rect")
+	    .attr("id", function(d) { return "bar_"+d.id; } )
+	    .attr("width", function(d) { return x_salary_scale(d.amount); } )
+	    .attr("height", barHeight - 1);
+
+	tax_details_bar.append("text")
+	    .attr("id", function(d) { return "label_"+d.id; } )
+	    .attr("x", "120" )
+	    .attr("y", barHeight / 2)
+	    .attr("dy", ".35em")
+	    .text(function(d) { return d.name; });
+
+	tax_details.append("g")
+	    .attr("class", "x axis")
+	    .attr("transform", "translate(0," + height + ")")
+	    .call(xAxis);
+
+	var small_ppm_format = wNumb({
+		mark: ',',
+		decimals: '7',
+		thousand: ' ',
+		prefix: '',
+		postfix: '%'
+	});
+
+	function update(amount){
+
+		your_part_of_norway_income_ppm = (total_skatt(amount, amount) / norway_total_income) * 1000;
+
+		your_part_of_norway_income_div.innerHTML = "Din skatt som andel av Norges samlede inntekter i promille: "
+																								+ small_ppm_format.to(your_part_of_norway_income_ppm);
+
+		get_norway_expenses(your_part_of_norway_income_ppm);
+
+		total_tax.selectAll("#bar_total_skatt")
+				.attr("width", x_salary_scale(total_skatt(amount, amount)) );
+		total_tax.selectAll("#label_total_skatt")
+			.text('Total skatt: ' + moneyFormat.to(total_skatt(amount, amount)) + ' (' + total_skatt_pct(amount,amount) + '%)')
+			.attr("x", x_salary_scale(total_skatt(amount, amount)) + 10);
+
+		tax_details.selectAll("#bar_total_skatt")
+				.attr("width", x_salary_scale(total_skatt(amount, amount)) );
+		tax_details.selectAll("#label_total_skatt")
+			.text('Total skatt: ' + moneyFormat.to(total_skatt(amount, amount)) + ' (' + total_skatt_pct(amount,amount) + '%)')
+			.attr("x", x_salary_scale(total_skatt(amount, amount)) + 10);
+
+	  tax_details.selectAll("#bar_trygdeavgift")
+	      .attr("width", x_salary_scale(trygdeavgift(amount)) );
+	  tax_details.selectAll("#label_trygdeavgift")
+	    .text('Trygdeavgift: ' + moneyFormat.to(trygdeavgift(amount)))
+			.attr("x", x_salary_scale(trygdeavgift(amount)) + 10);
+
+	  tax_details.selectAll("#bar_personskatt_stat")
+	      .attr("width", x_salary_scale(personskatt_stat(amount)) );
+	  tax_details.selectAll("#label_personskatt_stat")
+	    .text('Personskatt Staten: ' + moneyFormat.to(personskatt_stat(amount)))
+			.attr("x", x_salary_scale(personskatt_stat(amount)) + 10);
+
+		tax_details.selectAll("#bar_personskatt_fylke")
+	      .attr("width", x_salary_scale(personskatt_fylke(amount)) );
+	  tax_details.selectAll("#label_personskatt_fylke")
+	    .text('Personskatt Fylke: ' + moneyFormat.to(personskatt_fylke(amount)))
+			.attr("x", x_salary_scale(personskatt_fylke(amount)) + 10);
+
+		tax_details.selectAll("#bar_personskatt_kommune")
+				.attr("width", x_salary_scale(personskatt_kommune(amount)) );
+		tax_details.selectAll("#label_personskatt_kommune")
+			.text('Personskatt Kommune: ' + moneyFormat.to(personskatt_kommune(amount)))
+			.attr("x", x_salary_scale(personskatt_kommune(amount)) + 10);
+
+	  tax_details.selectAll("#bar_personskatt_trinn1")
+	      .attr("width", x_salary_scale(personskatt_trinn1(amount)) );
+	  tax_details.selectAll("#label_personskatt_trinn1")
+	    .text('Personskatt trinn 1: ' + moneyFormat.to(personskatt_trinn1(amount)))
+			.attr("x", x_salary_scale(personskatt_trinn1(amount)) + 10);
+
+	  tax_details.selectAll("#bar_personskatt_trinn2")
+	      .attr("width", x_salary_scale(personskatt_trinn2(amount)) );
+	  tax_details.selectAll("#label_personskatt_trinn2")
+	    .text('Personskatt trinn 2: ' + moneyFormat.to(personskatt_trinn2(amount)))
+			.attr("x", x_salary_scale(personskatt_trinn2(amount)) + 10);
+
+	  tax_details.selectAll("#bar_personskatt_trinn3")
+	      .attr("width", x_salary_scale(personskatt_trinn3(amount)) );
+	  tax_details.selectAll("#label_personskatt_trinn3")
+	    .text('Personskatt trinn 3: ' + moneyFormat.to(personskatt_trinn3(amount)))
+			.attr("x", x_salary_scale(personskatt_trinn3(amount)) + 10);
+
+	  tax_details.selectAll("#bar_personskatt_trinn4")
+	      .attr("width", x_salary_scale(personskatt_trinn4(amount)) );
+	  tax_details.selectAll("#label_personskatt_trinn4")
+	    .text('Personskatt trinn 4: ' + moneyFormat.to(personskatt_trinn4(amount)))
+			.attr("x", x_salary_scale(personskatt_trinn4(amount)) + 10);
+
+		x_salary_scale.domain([0, amount])
+		    	.range([0, width]);
+
+	}
+
+
+	var sliderFormat = document.getElementById('slider-format');
+
+	noUiSlider.create(sliderFormat, {
+	              start: [ 528000 ],
+	              step: 10000,
+	              range: {
+	                'min': [ 0 ],
+	                'max': [ 2000000 ]
+	              },
+	              //format: moneyFormat, // Not working, cannot convert back to number
+	            });
+
+
+
+	var inputFormat = document.getElementById('input-format');
+
+	sliderFormat.noUiSlider.on('update', function( value, handle ) {
+	  var data = [{ id: "skatt_til_staten",
+	                name: "skatt til staten",
+	                amount: value}];
+	  update(value);
+	});
+
+	sliderFormat.noUiSlider.on('update', function( values, handle ) {
+	    inputFormat.value = values[handle];
+	});
+
+	inputFormat.addEventListener('change', function(){
+	    sliderFormat.noUiSlider.set(this.value);
+	});
+	</script>
+
+
+</html>
