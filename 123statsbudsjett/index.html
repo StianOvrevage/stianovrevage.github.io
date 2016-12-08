@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Hello you!</title>
+    <title>Thingus Perfectus</title>
 
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
@@ -65,18 +65,20 @@
     <![endif]-->
   </head>
   <body>
-    <h1>Hello, you</h1>
+    <h1>Thingus Perfectus</h1>
 
 		<div class="example">
 		  <div id="slider-format"></div>
-		  <input id="input-format">
+		  <!-- <input id="input-format"> -->
+      <div id="salary"></div>
+      <div id="your_part_of_norway_income_div"></div>
 		</div>
 
 		<div class="panel-group" id="accordion" role="tablist">
 		  <div class="panel panel-default">
 		    <div class="panel-heading" role="tab" id="headingOne">
 		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#tax_details_panel">
-		          <svg id="total_tax" class="chart"></svg>
+		          <table><tr><td>Detaljer</td> <td><svg id="total_tax" class="chart"></svg></td></tr></table>
 		        </a>
 		    </div>
 		    <div id="tax_details_panel" class="panel-collapse collapse" role="tabpanel">
@@ -92,7 +94,7 @@
 		          Statens utgifter
 		        </a>
 		    </div>
-		    <div id="norway_expenses_panel" class="panel-collapse collapse" role="tabpanel">
+		    <div id="norway_expenses_panel" class="panel-collapse collapse in" role="tabpanel">
 		      <div class="panel-body">
 		        <svg id="norway_expenses" class="chart"></svg>
 		      </div>
@@ -169,17 +171,22 @@
 
 	<script>
 
-	var personinntekt = 528000;
-
-	var your_part_of_norway_income_div = document.getElementById("your_part_of_norway_income");
-	var your_part_of_norway_income_ppm = (total_skatt(personinntekt, personinntekt) / norway_total_income) * 1000;
-
 	var moneyFormat = wNumb({
 		mark: ',',
+    decimals: '0',
 		thousand: ' ',
 		prefix: '',
 		postfix: ' kr'
 	});
+
+  var small_ppm_format = wNumb({
+		mark: ',',
+		decimals: '7',
+		thousand: ' ',
+		prefix: '',
+		postfix: ' ‰'
+	});
+
 
 	function trygdeavgift(personinntekt){
 	    var nedre_grense_trygdeavgift = 54650,
@@ -353,52 +360,63 @@
 	    .attr("dy", ".35em")
 	    .text(function(d) { return d.name; });
 
-	// Norway income chart
-	var norway_total_income = 0	;
 
-	d3.json("norsk_statsbudsjett_2017_inntekter.json", function(error, data) {
+  var global_norsk_statsbudsjett_2017_inntekter;
+  var global_norsk_statsbudsjett_2017_utgifter;
+  var global_norway_total_income = 0; // Init this var as number.
 
-			var norway_income_chart = d3.select("#norway_income")
+  var global_norway_expenses_bars;
+
+  d3.queue()
+    .defer(d3.json, 'norsk_statsbudsjett_2017_inntekter.json')
+    .defer(d3.json, 'norsk_statsbudsjett_2017_utgifter.json')
+    .await(function(error, norsk_statsbudsjett_2017_inntekter, norsk_statsbudsjett_2017_utgifter) {
+
+      global_norsk_statsbudsjett_2017_inntekter = norsk_statsbudsjett_2017_inntekter;
+      global_norsk_statsbudsjett_2017_utgifter = norsk_statsbudsjett_2017_utgifter;
+
+      // Norway income chart
+      var personinntekt = 528000;
+
+      var norway_income_chart = d3.select("#norway_income")
 			    .attr("width", width)
-			    .attr("height", barHeight * data.length);
+			    .attr("height", barHeight * norsk_statsbudsjett_2017_inntekter.length);
 
-			var norway_income_bar = norway_income_chart.selectAll("g")
-			    .data(data.sort(function(a,b) { return b.amount - a.amount; }), function(d){ norway_total_income += d.amount; })
+			var norway_income_bars = norway_income_chart.selectAll("g")
+			    .data(norsk_statsbudsjett_2017_inntekter.sort(function(a,b) { return b.amount - a.amount; }), function(d){ global_norway_total_income += d.amount; })
 			  .enter().append("g")
 			    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
 
 			var x_budget_scale = d3.scaleLinear()
-					.domain([0,norway_total_income])
+					.domain([0, global_norway_total_income])
 					.range([0, width]);
 
-			norway_income_bar.append("rect")
+			norway_income_bars.append("rect")
 			    .attr("id", function(d) { return "bar_"+d.id; } )
 			    .attr("width", function(d) { return x_budget_scale(d.amount); } )
 			    .attr("height", barHeight - 1);
 
-			norway_income_bar.append("text")
+			norway_income_bars.append("text")
 			    .attr("id", function(d) { return "label_"+d.id; } )
 			    .attr("x", function(d) { return x_budget_scale(d.amount) + 10; } )
 			    .attr("y", barHeight / 2)
 			    .attr("dy", ".35em")
 			    .text(function(d) { return d.name + ' (' + moneyFormat.to(d.amount) + ')'; });
-	});
 
 
-	// Norway expenses chart
-	var norway_total_expenses = 0	;
+      // Norway expenses chart
+    	var norway_total_expenses = 0	;
 
-	function get_norway_expenses(your_part_of_norway_income_ppm){
-		d3.json("norsk_statsbudsjett_2017_utgifter.json", function(error, data) {
-
-			var norway_expenses_chart = d3.select("#norway_expenses")
+      var norway_expenses_chart = d3.select("#norway_expenses")
 					.attr("width", width)
-					.attr("height", barHeight * data.length);
+					.attr("height", barHeight * norsk_statsbudsjett_2017_utgifter.length);
 
 			var norway_expenses_bars = norway_expenses_chart.selectAll("g")
-			    .data(data.sort(function(a,b) { return b.sum - a.sum; }), function(d){ norway_total_expenses += d.sum; })
+			    .data(norsk_statsbudsjett_2017_utgifter.sort(function(a,b) { return b.sum - a.sum; }), function(d){ norway_total_expenses += d.sum; })
 			  .enter().append("g")
 			    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+      global_norway_expenses_bars = norway_expenses_bars;
 
 			var x_expense_scale = d3.scaleLinear()
 					.domain([0,norway_total_expenses])
@@ -417,12 +435,15 @@
 			    .text(function(d) { return d.name +
 																			' (' +
 																			moneyFormat.to(d.sum) +
-																			') / ( ' +
-																			( d.sum * ( your_part_of_norway_income_ppm / 1000 ) )
-																			+ ' )';
+																			')';
 														});
-		});
-	};
+
+      // Initial update
+      update(personinntekt);
+
+    });
+
+
 
 	// Tax details chart
 	var tax_details = d3.select("#tax_details")
@@ -451,22 +472,25 @@
 	    .attr("transform", "translate(0," + height + ")")
 	    .call(xAxis);
 
-	var small_ppm_format = wNumb({
-		mark: ',',
-		decimals: '7',
-		thousand: ' ',
-		prefix: '',
-		postfix: '%'
-	});
 
 	function update(amount){
 
-		your_part_of_norway_income_ppm = (total_skatt(amount, amount) / norway_total_income) * 1000;
+  	your_part_of_norway_income_ppm = (total_skatt(amount, amount) / global_norway_total_income) * 1000;
 
-		your_part_of_norway_income_div.innerHTML = "Din skatt som andel av Norges samlede inntekter i promille: "
+
+		document.getElementById("your_part_of_norway_income_div").innerHTML = "Din skatt som andel av Norges samlede inntekter i promille: "
 																								+ small_ppm_format.to(your_part_of_norway_income_ppm);
 
-		get_norway_expenses(your_part_of_norway_income_ppm);
+    document.getElementById("salary").innerHTML = moneyFormat.to(+amount);
+
+
+    var expense_bars = global_norway_expenses_bars
+      .data(global_norsk_statsbudsjett_2017_inntekter);
+
+    expense_bars.selectAll("text")
+      .text(function(d){
+            return moneyFormat.to(d.sum * (your_part_of_norway_income_ppm / 1000)) + ' av totalt ' + moneyFormat.to(d.sum) + ' til ' + d.name;
+          });
 
 		total_tax.selectAll("#bar_total_skatt")
 				.attr("width", x_salary_scale(total_skatt(amount, amount)) );
@@ -543,10 +567,7 @@
 	                'min': [ 0 ],
 	                'max': [ 2000000 ]
 	              },
-	              //format: moneyFormat, // Not working, cannot convert back to number
 	            });
-
-
 
 	var inputFormat = document.getElementById('input-format');
 
@@ -555,15 +576,10 @@
 	                name: "skatt til staten",
 	                amount: value}];
 	  update(value);
+
 	});
 
-	sliderFormat.noUiSlider.on('update', function( values, handle ) {
-	    inputFormat.value = values[handle];
-	});
 
-	inputFormat.addEventListener('change', function(){
-	    sliderFormat.noUiSlider.set(this.value);
-	});
 	</script>
 
 
