@@ -65,97 +65,77 @@
     <![endif]-->
   </head>
   <body>
-    <h1>Thingus Perfectus</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
 
-		<div class="example">
-		  <div id="slider-format"></div>
-		  <!-- <input id="input-format"> -->
-      <div id="salary"></div>
-      <div id="your_part_of_norway_income_div"></div>
-		</div>
+          <h1>Thingus Perfectus</h1>
 
-		<div class="panel-group" id="accordion" role="tablist">
-		  <div class="panel panel-default">
-		    <div class="panel-heading" role="tab" id="headingOne">
-		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#tax_details_panel">
-		          <table><tr><td>Detaljer</td> <td><svg id="total_tax" class="chart"></svg></td></tr></table>
-		        </a>
-		    </div>
-		    <div id="tax_details_panel" class="panel-collapse collapse" role="tabpanel">
-		      <div class="panel-body">
-		        <svg id="tax_details" class="chart"></svg>
-		      </div>
-		    </div>
-		  </div>
+          <div class="alert alert-danger alert-dismissible text-center" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+            <strong>Dette er en tidlig utviklingsversjon av 123statsbudsjett
+              og utseende og funksjonalitet har derfor varierende kvalitet.</strong>
+          </div>
 
-			<div class="panel panel-default">
-		    <div class="panel-heading" role="tab" id="headingOne">
-		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#norway_expenses_panel">
-		          Statens utgifter
-		        </a>
-		    </div>
-		    <div id="norway_expenses_panel" class="panel-collapse collapse in" role="tabpanel">
-		      <div class="panel-body">
-		        <svg id="norway_expenses" class="chart"></svg>
-		      </div>
-		    </div>
-		  </div>
+          <div class="example">
+            <div id="salary" class="text-center"></div>
+            <div id="slider-format"></div><br><br>
 
-			<div class="panel panel-default">
-				<div class="panel-heading" role="tab" id="headingOne">
-						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#county_expenses_panel">
-							Fylkets utgifter
-						</a>
-				</div>
-				<div id="county_expenses_panel" class="panel-collapse collapse" role="tabpanel">
-					<div class="panel-body">
-						<svg id="county_expenses" class="chart"></svg>
-					</div>
-				</div>
-			</div>
+            <div id="your_part_of_norway_income_div" class="text-center"></div>
+          </div>
 
-			<div class="panel panel-default">
-				<div class="panel-heading" role="tab" id="headingOne">
-						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#municipality_expenses_panel">
-							Kommunens utgifter
-						</a>
-				</div>
-				<div id="municipality_expenses_panel" class="panel-collapse collapse" role="tabpanel">
-					<div class="panel-body">
-						<svg id="municipality_expenses" class="chart"></svg>
-					</div>
-				</div>
-			</div>
+        </div>
+      </div>
 
-			<div class="panel panel-default">
-		    <div class="panel-heading" role="tab" id="headingOne">
-		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#norway_income_panel">
-		          Statens inntekter
-		        </a>
-		    </div>
-		    <div id="norway_income_panel" class="panel-collapse collapse" role="tabpanel">
-		      <div class="panel-body">
-						<div id="your_part_of_norway_income"></div>
-		        <svg id="norway_income" class="chart"></svg>
-		      </div>
-		    </div>
-		  </div>
+      <div class="row">
+        <div class="col-lg-12">
 
-			<div class="panel panel-default">
-		    <div class="panel-heading" role="tab" id="headingOne">
-		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#ref_panel">
-		          Referanser
-		        </a>
-		    </div>
-		    <div id="ref_panel" class="panel-collapse collapse" role="tabpanel">
-		      <div class="panel-body">
-						http://www.statsbudsjettet.no/Statsbudsjettet-2017/Dokumenter1/Budsjettdokumenter/Statsbudsjettet-2017/Prop-1-S/Vedlegg-og-registre/Vedlegg-1-Oversikt-over-utgifter-og-inntekter-i-statsbudsjettet-for-budsjetterminen-2017/
-		      </div>
-		    </div>
-		  </div>
+          <div>
 
-		</div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#skatt" role="tab" data-toggle="tab">Din skatt</a></li>
+              <li role="presentation"><a href="#staten" role="tab" data-toggle="tab">Statens inntekter og utgifter</a></li>
+              <li role="presentation"><a href="#fylke" role="tab" data-toggle="tab">Fylkets inntekter og utgifter</a></li>
+              <li role="presentation"><a href="#kommune" role="tab" data-toggle="tab">Kommunens inntekter og utgifter</a></li>
+              <li role="presentation"><a href="#about" role="tab" data-toggle="tab">About</a></li>
+            </ul>
 
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="skatt">
+
+                <svg id="total_tax" class="chart"></svg>
+                <svg id="tax_details" class="chart"></svg>
+
+              </div>
+              <div role="tabpanel" class="tab-pane" id="staten">
+                Statens utgifter:<br>
+                <svg id="norway_expenses" class="chart"></svg>
+                Statens inntekter:<br>
+                <svg id="norway_income" class="chart"></svg>
+
+              </div>
+
+              <div role="tabpanel" class="tab-pane" id="fylke">
+                Fylkets utgifter:<br>
+                <svg id="county_expenses" class="chart"></svg>
+              </div>
+
+              <div role="tabpanel" class="tab-pane" id="kommune">
+                Kommunens utgifter:<br>
+                <svg id="municipality_expenses" class="chart"></svg>
+              </div>
+
+              <div role="tabpanel" class="tab-pane" id="about">
+                http://www.statsbudsjettet.no/Statsbudsjettet-2017/Dokumenter1/Budsjettdokumenter/Statsbudsjettet-2017/Prop-1-S/Vedlegg-og-registre/Vedlegg-1-Oversikt-over-utgifter-og-inntekter-i-statsbudsjettet-for-budsjetterminen-2017/
+              </div>
+
+            </div>
+      		</div>
+        </div>
+      </div>
+    </div>
 
 		<script src="noUiSlider/nouislider.min.js" type="text/javascript"></script>
 		<script src="wNumb.js" type="text/javascript"></script>
@@ -475,15 +455,17 @@
 
 	function update(amount){
 
+    // Calculate users tax part of norways income
   	your_part_of_norway_income_ppm = (total_skatt(amount, amount) / global_norway_total_income) * 1000;
 
-
+    // Update user tax permille
 		document.getElementById("your_part_of_norway_income_div").innerHTML = "Din skatt som andel av Norges samlede inntekter i promille: "
 																								+ small_ppm_format.to(your_part_of_norway_income_ppm);
 
+    // Update user salary view
     document.getElementById("salary").innerHTML = moneyFormat.to(+amount);
 
-
+    // Update text on expense bars
     var expense_bars = global_norway_expenses_bars
       .data(global_norsk_statsbudsjett_2017_inntekter);
 
@@ -558,15 +540,26 @@
 	}
 
 
+  var pipsRange = document.getElementById('pips-range');
+
 	var sliderFormat = document.getElementById('slider-format');
 
 	noUiSlider.create(sliderFormat, {
 	              start: [ 528000 ],
 	              step: 10000,
 	              range: {
-	                'min': [ 0 ],
-	                'max': [ 2000000 ]
+	                'min': [        0 ],
+                  '20%': [   200000, 10000 ],
+                  '50%': [  1000000, 20000 ],
+                  '70%': [  5000000, 50000 ],
+	                'max': [ 11000000 ]
 	              },
+                pips: {
+                  mode: 'values',
+              		values: [0, 100000, 500000, 1000000, 5000000, 9000000],
+                  density: 3,
+                  format: moneyFormat
+                }
 	            });
 
 	var inputFormat = document.getElementById('input-format');
