@@ -79,9 +79,10 @@
 
           <div class="example">
             <div id="salary" class="text-center"></div>
-            <div id="slider-format"></div><br><br>
+            <div id="slider-format"></div><br><br><br>
 
-            <div id="your_part_of_norway_income_div" class="text-center"></div>
+            <div id="your_part_of_norway_income_div" class="text-center"></div><br>
+
           </div>
 
         </div>
@@ -93,38 +94,50 @@
           <div>
 
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
+            <ul class="nav nav-pills nav-justified" role="tablist">
               <li role="presentation" class="active"><a href="#skatt" role="tab" data-toggle="tab">Din skatt</a></li>
               <li role="presentation"><a href="#staten" role="tab" data-toggle="tab">Statens inntekter og utgifter</a></li>
               <li role="presentation"><a href="#fylke" role="tab" data-toggle="tab">Fylkets inntekter og utgifter</a></li>
               <li role="presentation"><a href="#kommune" role="tab" data-toggle="tab">Kommunens inntekter og utgifter</a></li>
               <li role="presentation"><a href="#about" role="tab" data-toggle="tab">About</a></li>
             </ul>
-
+            <br>
             <!-- Tab panes -->
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane active" id="skatt">
+                <div class="well well-lg">
 
-                <svg id="total_tax" class="chart"></svg>
-                <svg id="tax_details" class="chart"></svg>
+                  <svg id="total_tax" class="chart"></svg><br>
+                  <svg id="tax_details" class="chart"></svg><br>
 
+                </div>
               </div>
               <div role="tabpanel" class="tab-pane" id="staten">
-                Statens utgifter:<br>
-                <svg id="norway_expenses" class="chart"></svg>
-                Statens inntekter:<br>
-                <svg id="norway_income" class="chart"></svg>
+
+                <div class="well well-lg">
+                  Statens utgifter per måned:<br>
+                  <svg id="norway_expenses" class="chart"></svg><br>
+                </div>
+
+                <div class="well well-lg">
+                  Statens inntekter:<br>
+                  <svg id="norway_income" class="chart"></svg><br>
+                </div>
 
               </div>
 
               <div role="tabpanel" class="tab-pane" id="fylke">
-                Fylkets utgifter:<br>
-                <svg id="county_expenses" class="chart"></svg>
+                <div class="well well-lg">
+                  Fylkets utgifter:<br>
+                  <svg id="county_expenses" class="chart"></svg><br>
+                </div>
               </div>
 
               <div role="tabpanel" class="tab-pane" id="kommune">
-                Kommunens utgifter:<br>
-                <svg id="municipality_expenses" class="chart"></svg>
+                <div class="well well-lg">
+                  Kommunens utgifter:<br>
+                  <svg id="municipality_expenses" class="chart"></svg><br>
+                </div>
               </div>
 
               <div role="tabpanel" class="tab-pane" id="about">
@@ -471,7 +484,7 @@
 
     expense_bars.selectAll("text")
       .text(function(d){
-            return moneyFormat.to(d.sum * (your_part_of_norway_income_ppm / 1000)) + ' av totalt ' + moneyFormat.to(d.sum) + ' til ' + d.name;
+            return moneyFormat.to( (d.sum * ( your_part_of_norway_income_ppm / 1000)) / 12 ) + ' av totalt ' + moneyFormat.to(d.sum / 12) + ' til ' + d.name;
           });
 
 		total_tax.selectAll("#bar_total_skatt")
