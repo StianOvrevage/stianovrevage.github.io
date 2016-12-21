@@ -1,29 +1,11 @@
 [
   {
-    "id": "kongelige_hus",
-    "name": "Det kongelige hus",
-    "sum": 248169000,
-    "driftsutgifter": 21009000,
-    "nybygg_osv": 0,
-    "overforinger_til_andre": 227160000,
-    "utlan_gjeldsavdrag": 0
-  },
-  {
     "id": "regjering",
     "name": "Regjering",
     "sum": 404600000,
     "driftsutgifter": 404600000,
     "nybygg_osv": 0,
     "overforinger_til_andre": 0,
-    "utlan_gjeldsavdrag": 0
-  },
-  {
-    "id": "storting",
-    "name": "Stortinget og underliggende institusjoner",
-    "sum": 2270700000,
-    "driftsutgifter": 1526700000,
-    "nybygg_osv": 514000000,
-    "overforinger_til_andre": 230000000,
     "utlan_gjeldsavdrag": 0
   },
   {
@@ -99,6 +81,15 @@
     "utlan_gjeldsavdrag": 0
   },
   {
+    "id": "kongelige_hus",
+    "name": "Det kongelige hus",
+    "sum": 248169000,
+    "driftsutgifter": 21009000,
+    "nybygg_osv": 0,
+    "overforinger_til_andre": 227160000,
+    "utlan_gjeldsavdrag": 0
+  },
+  {
     "id": "barnedept",
     "name": "Barne- og likestillingsdepartementet",
     "sum": 28311718000,
@@ -123,6 +114,15 @@
     "driftsutgifter": 1776682000,
     "nybygg_osv": 3992000,
     "overforinger_til_andre": 16214092000,
+    "utlan_gjeldsavdrag": 0
+  },
+  {
+    "id": "storting",
+    "name": "Stortinget og underliggende institusjoner",
+    "sum": 2270700000,
+    "driftsutgifter": 1526700000,
+    "nybygg_osv": 514000000,
+    "overforinger_til_andre": 230000000,
     "utlan_gjeldsavdrag": 0
   },
   {
